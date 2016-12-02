@@ -1,6 +1,7 @@
 package project.passwordproject.classes;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +44,8 @@ public class SitesAdapter extends ArrayAdapter<Site> {
             holder.siteInfo = (TextView) row.findViewById(R.id.rowInfoTextView);
 
             row.setTag(holder);
-        }else{
-            holder = (SiteHolder)row.getTag();
+        } else {
+            holder = (SiteHolder) row.getTag();
         }
 
         Site currentSite = mySites.get(position);

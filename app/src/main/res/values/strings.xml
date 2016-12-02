@@ -32,4 +32,8 @@
     <string name="my_sites">My Sites</string>
     <string name="site_name">Site Name</string>
     <string name="row_info">Row Info</string>
+    <string name="add_password">Add Password</string>
+    <string name="add_site">Add Site</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
 </resources>

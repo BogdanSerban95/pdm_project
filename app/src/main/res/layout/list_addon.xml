@@ -16,6 +16,6 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
-        app:srcCompat="@drawable/plus_circle_outline" />
+        app:srcCompat="@drawable/plus" />
 
 </android.support.design.widget.CoordinatorLayout>
