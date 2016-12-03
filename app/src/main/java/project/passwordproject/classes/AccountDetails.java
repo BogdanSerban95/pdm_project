@@ -1,10 +1,12 @@
 package project.passwordproject.classes;
 
+import java.io.Serializable;
+
 /**
  * Created by Serban on 02/12/2016.
  */
 
-public class AccountDetails {
+public class AccountDetails implements Serializable {
     private String userName;
     private String email;
     private String password;

@@ -13,8 +13,8 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:text="@string/site_name"
-        android:textSize="20sp"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/rowInfoTextView"
@@ -23,5 +23,6 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:text="@string/row_info"
+        android:textColor="#505050"
         android:textSize="15sp" />
 </LinearLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_site_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    tools:context="project.passwordproject.activities.SiteDetailsActivity">
+
+    <TextView
+        android:id="@+id/siteNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="@string/site_name"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+    <Space
+        android:id="@+id/someSpace"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/siteNameTextView" />
+
+    <GridLayout
+        android:id="@+id/siteDetailsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/someSpace"
+        android:columnCount="4"
+        android:rowCount="3">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="@string/name"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/detailsSiteNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_columnSpan="3"
+            android:layout_row="0"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="@string/site_name" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="@string/address"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/detailsSiteAddressTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_columnSpan="3"
+            android:layout_row="1"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="@string/address" />
+
+    </GridLayout>
+
+    <Space
+        android:id="@+id/someOtherSpace"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/siteDetailsLayout" />
+
+    <TextView
+        android:id="@+id/accountsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/someOtherSpace"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="@string/my_accounts"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+    <ListView
+        android:id="@+id/accountsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/accountsLabel">
+
+    </ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addAccountFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/plus"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"/>
+</RelativeLayout>
