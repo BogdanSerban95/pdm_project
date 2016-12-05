@@ -66,7 +66,7 @@
             android:layout_marginStart="10dp"
             android:ems="10"
             android:hint="@string/pass"
-            android:inputType="textPassword" />
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/commentsEditText"
@@ -74,12 +74,112 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/titleLayout"
             android:layout_alignStart="@+id/titleLayout"
-            android:layout_below="@+id/passwordEditText"
+            android:layout_below="@+id/passOptionsLayout"
             android:layout_marginStart="10dp"
             android:ems="10"
             android:hint="@string/comments"
             android:inputType="textMultiLine"
             android:lines="5" />
+
+
+        <LinearLayout
+            android:id="@+id/passOptionsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/titleLayout"
+            android:layout_alignStart="@+id/titleLayout"
+            android:layout_below="@+id/generatePassCheckBox"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/lowerCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lowercase_letters" />
+
+                    <CheckBox
+                        android:id="@+id/upperCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/uppercase_letters" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/digitsCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/digits" />
+
+                    <CheckBox
+                        android:id="@+id/specialCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/special_chars" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/password_length" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="25">
+
+                <SeekBar
+                    android:id="@+id/passLengthSeekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="20"
+                    android:max="128" />
+
+                <EditText
+                    android:enabled="false"
+                    android:id="@+id/passLengthEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_weight="5" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/generatePassButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:padding="5dp"
+                android:text="@string/generate" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/generatePassCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passwordEditText"
+            android:text="@string/generate_password" />
+
     </RelativeLayout>
 
 

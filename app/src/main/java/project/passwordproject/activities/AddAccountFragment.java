@@ -2,17 +2,25 @@ package project.passwordproject.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.Toast;
 
 import project.passwordproject.R;
 import project.passwordproject.classes.AccountDetails;
+import project.passwordproject.classes.GeneratePassTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +30,12 @@ public class AddAccountFragment extends DialogFragment {
 
     private AddAccountListener listener;
     private Button addButton;
-
+    private Button generatePassButton;
+    private EditText passEditText;
+    private LinearLayout passOptionsLayout;
+    private EditText commentsEditText;
+    private SeekBar passLengthSeekBar;
+    private EditText passLengthEditText;
 
     public AddAccountFragment() {
         // Required empty public constructor
@@ -35,14 +48,99 @@ public class AddAccountFragment extends DialogFragment {
 
 
         final View view = inflater.inflate(R.layout.fragment_add_account, container, false);
+
+        passEditText = (EditText) view.findViewById(R.id.passwordEditText);
+        passLengthEditText = (EditText) view.findViewById(R.id.passLengthEditText);
+        passLengthSeekBar = (SeekBar) view.findViewById(R.id.passLengthSeekBar);
+        passOptionsLayout = (LinearLayout) view.findViewById(R.id.passOptionsLayout);
+        commentsEditText = (EditText) view.findViewById(R.id.commentsEditText);
+        final CheckBox generatePassCheckBox = (CheckBox) view.findViewById(R.id.generatePassCheckBox);
+
+
+        passLengthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                passLengthEditText.setText(String.valueOf(passLengthSeekBar.getProgress()));
+                if (progress < 8) {
+                    Toast.makeText(view.getContext(), "I recommend that your password will be longer than 8 characters.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        generatePassCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (generatePassCheckBox.isChecked()) {
+                    passOptionsLayout.setVisibility(View.VISIBLE);
+//                    commentsEditText.setAlpha(0.0f);
+//                    commentsEditText.animate().translationY(passOptionsLayout.getHeight()).alpha(1.0f);
+                } else {
+                    passOptionsLayout.setVisibility(View.GONE);
+//                    commentsEditText.animate().translationY(0);
+                }
+            }
+        });
+
+        generatePassButton = (Button) view.findViewById(R.id.generatePassButton);
+        generatePassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int upperBit = 0;
+                int lowerBit = 0;
+                int digitBit = 0;
+                int specialBit = 0;
+
+                CheckBox upperCheck = (CheckBox) view.findViewById(R.id.upperCheckBox);
+                CheckBox lowerCheck = (CheckBox) view.findViewById(R.id.lowerCheckBox);
+                CheckBox digitCheck = (CheckBox) view.findViewById(R.id.digitsCheckBox);
+                CheckBox specialCheck = (CheckBox) view.findViewById(R.id.specialCheckBox);
+
+                if (upperCheck.isChecked()) {
+                    upperBit = 1;
+                }
+                if (lowerCheck.isChecked()) {
+                    lowerBit = 1;
+                }
+                if (digitCheck.isChecked()) {
+                    digitBit = 1;
+                }
+                if (specialCheck.isChecked()) {
+                    specialBit = 1;
+                }
+
+                if (lowerBit == 1 && specialBit == 1) {
+                    specialBit = 0;
+                } else if (lowerBit == 1 && specialBit == 0) {
+                    specialBit = 1;
+                }
+                String x = String.valueOf(specialBit) + String.valueOf(digitBit) + String.valueOf(lowerBit) + String.valueOf(upperBit);
+                String n = String.valueOf(passLengthSeekBar.getProgress());
+                GeneratePassTask passTask = new GeneratePassTask(view);
+                String[] params = new String[2];
+                params[0] = n;
+                params[1] = x;
+                passTask.execute(params);
+            }
+        });
+
         addButton = (Button) view.findViewById(R.id.addAccountButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText userNameEditText = (EditText) view.findViewById(R.id.userNameEditText);
                 EditText emailEditText = (EditText) view.findViewById(R.id.emailEditText);
-                EditText passEditText = (EditText) view.findViewById(R.id.passwordEditText);
-                EditText commentsEditText = (EditText) view.findViewById(R.id.commentsEditText);
+
 
                 String username = userNameEditText.getText().toString();
                 String email = emailEditText.getText().toString();

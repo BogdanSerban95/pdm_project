@@ -44,4 +44,12 @@
     <string name="add">Add</string>
     <string name="username">Username</string>
     <string name="comments">Additional Comments</string>
+    <string name="rnd">rnd</string>
+    <string name="generate">Generate</string>
+    <string name="uppercase_letters">Uppercase Letters</string>
+    <string name="lowercase_letters">Lowercase Letters</string>
+    <string name="digits">Digits</string>
+    <string name="special_chars">Special Characters</string>
+    <string name="generate_password">Generate Password</string>
+    <string name="password_length">Password Length</string>
 </resources>
