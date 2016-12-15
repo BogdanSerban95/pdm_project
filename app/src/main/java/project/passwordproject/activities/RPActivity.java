@@ -1,5 +1,6 @@
 package project.passwordproject.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,8 +33,9 @@ public class RPActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reset_password_activity);
 
-        editTextReset=(EditText)findViewById(R.id.pass_reset);
-        btnReset=(Button)findViewById(R.id.reset_button);
+        editTextReset = (EditText) findViewById(R.id.pass_reset);
+        btnReset = (Button) findViewById(R.id.reset_button);
+
 
         auth = FirebaseAuth.getInstance();
 
@@ -53,6 +55,10 @@ public class RPActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(RPActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
+                                    finish();
                                 } else {
                                     Toast.makeText(RPActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                                 }
@@ -61,5 +67,7 @@ public class RPActivity extends AppCompatActivity {
                         });
             }
         });
+
+
     }
 }

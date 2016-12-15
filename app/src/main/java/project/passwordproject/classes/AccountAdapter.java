@@ -1,11 +1,15 @@
 package project.passwordproject.classes;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -28,6 +32,12 @@ public class AccountAdapter extends ArrayAdapter<AccountDetails> {
         myAccounts = objects;
     }
 
+    @Nullable
+    @Override
+    public AccountDetails getItem(int position) {
+        return myAccounts.get(position);
+    }
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -41,6 +51,7 @@ public class AccountAdapter extends ArrayAdapter<AccountDetails> {
             holder = new AccountHolder();
             holder.userNameTextView = (TextView) row.findViewById(R.id.rowUserTextView);
             holder.emailTextView = (TextView) row.findViewById(R.id.rowEmailTextView);
+            holder.deleteAccountButton = (ImageView)row.findViewById(R.id.deleteAccountButton);
 
             row.setTag(holder);
         } else {
@@ -52,11 +63,42 @@ public class AccountAdapter extends ArrayAdapter<AccountDetails> {
         holder.userNameTextView.setText(currentAccount.getUserName());
         holder.emailTextView.setText(currentAccount.getEmail());
 
+        Integer pos = position;
+        holder.deleteAccountButton.setTag(pos);
+        holder.deleteAccountButton.setOnClickListener(onClickListener);
+
         return row;
     }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final View clickedView = v;
+            AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
+            builder.setMessage("You will remove this account from your list... Are you sure?")
+                    .setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            int position = (Integer) clickedView.getTag();
+                            myAccounts.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        }
+    };
 
     private class AccountHolder {
         public TextView userNameTextView;
         public TextView emailTextView;
+        public ImageView deleteAccountButton;
     }
 }

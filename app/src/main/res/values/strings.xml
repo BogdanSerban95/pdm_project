@@ -52,4 +52,11 @@
     <string name="special_chars">Special Characters</string>
     <string name="generate_password">Generate Password</string>
     <string name="password_length">Password Length</string>
+    <string name="rememberMe">Remember me</string>
+    <string name="settings">Settings</string>
+    <string name="log_out">Log out</string>
+    <string name="upload_to_cloud">Upload To Cloud</string>
+    <string name="sync_accounts">Syncronize Passwords</string>
+    <string name="save">Save</string>
+    <string name="edit_account_label">Edit Account</string>
 </resources>

@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import project.passwordproject.classes.AccountDetails;
 import project.passwordproject.classes.Site;
 
 public class SiteDetailsActivity extends AppCompatActivity implements AddAccountFragment.AddAccountListener {
+    public static String EDIT_ACCOUNT = "accountToEdit";
 
     private TextView titleTextView;
     private TextView siteNameTextView;
@@ -55,8 +57,20 @@ public class SiteDetailsActivity extends AppCompatActivity implements AddAccount
             }
         });
 
-        accountAdapter = new AccountAdapter(getApplicationContext(), R.layout.account_row, currentSite.getAccountList());
+        accountAdapter = new AccountAdapter(SiteDetailsActivity.this, R.layout.account_row, currentSite.getAccountList());
         accountsListView.setAdapter(accountAdapter);
+
+        accountsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                AddAccountFragment accountFragment = new AddAccountFragment();
+                Bundle extraData = new Bundle();
+                extraData.putSerializable(EDIT_ACCOUNT,accountAdapter.getItem(position));
+                accountFragment.setArguments(extraData);
+                accountFragment.show(fragmentTransaction, "dialog");
+            }
+        });
     }
 
     @Override

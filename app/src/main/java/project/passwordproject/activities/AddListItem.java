@@ -1,5 +1,6 @@
 package project.passwordproject.activities;
 
+import android.app.*;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class AddListItem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_list_item);
+
 
         addSiteButton = (Button) findViewById(R.id.addSiteButton);
         siteNameEditText = (EditText) findViewById(R.id.siteNameEditText);

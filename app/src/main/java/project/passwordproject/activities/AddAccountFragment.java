@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import project.passwordproject.R;
@@ -36,6 +37,10 @@ public class AddAccountFragment extends DialogFragment {
     private EditText commentsEditText;
     private SeekBar passLengthSeekBar;
     private EditText passLengthEditText;
+    private AccountDetails details;
+    private CheckBox generatePassCheckBox;
+    private EditText emailEditText;
+    private EditText userNameEditText;
 
     public AddAccountFragment() {
         // Required empty public constructor
@@ -54,8 +59,10 @@ public class AddAccountFragment extends DialogFragment {
         passLengthSeekBar = (SeekBar) view.findViewById(R.id.passLengthSeekBar);
         passOptionsLayout = (LinearLayout) view.findViewById(R.id.passOptionsLayout);
         commentsEditText = (EditText) view.findViewById(R.id.commentsEditText);
-        final CheckBox generatePassCheckBox = (CheckBox) view.findViewById(R.id.generatePassCheckBox);
-
+        generatePassCheckBox = (CheckBox) view.findViewById(R.id.generatePassCheckBox);
+        userNameEditText = (EditText) view.findViewById(R.id.userNameEditText);
+        emailEditText = (EditText) view.findViewById(R.id.emailEditText);
+        addButton = (Button) view.findViewById(R.id.addAccountButton);
 
         passLengthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -76,8 +83,6 @@ public class AddAccountFragment extends DialogFragment {
 
             }
         });
-
-
         generatePassCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +98,7 @@ public class AddAccountFragment extends DialogFragment {
         });
 
         generatePassButton = (Button) view.findViewById(R.id.generatePassButton);
+
         generatePassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,13 +139,26 @@ public class AddAccountFragment extends DialogFragment {
                 passTask.execute(params);
             }
         });
+        Bundle extraContent = getArguments();
+        AccountDetails accountToEdit = (AccountDetails) extraContent.getSerializable(SiteDetailsActivity.EDIT_ACCOUNT);
+        if (accountToEdit != null) {
+            editAccountBehaviour(accountToEdit, view);
+        } else {
+            addAccountBehaviour(view);
+        }
 
-        addButton = (Button) view.findViewById(R.id.addAccountButton);
+
+        return view;
+    }
+
+    private void addAccountBehaviour(View templateView) {
+        final View view = templateView;
+
+
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText userNameEditText = (EditText) view.findViewById(R.id.userNameEditText);
-                EditText emailEditText = (EditText) view.findViewById(R.id.emailEditText);
 
 
                 String username = userNameEditText.getText().toString();
@@ -151,8 +170,38 @@ public class AddAccountFragment extends DialogFragment {
                 dismiss();
             }
         });
+    }
 
-        return view;
+    private void editAccountBehaviour(final AccountDetails accountToEdit, View templateView) {
+        View view = templateView;
+//        generatePassCheckBox.setVisibility(View.GONE);
+
+        TextView labelTextView = (TextView) view.findViewById(R.id.accountEditLabel);
+        labelTextView.setText(R.string.edit_account_label);
+
+        userNameEditText.setText(accountToEdit.getUserName());
+        emailEditText.setText(accountToEdit.getEmail());
+        passEditText.setText(accountToEdit.getPassword());
+        commentsEditText.setText(accountToEdit.getComments());
+
+        addButton.setText(R.string.save);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = userNameEditText.getText().toString();
+                String email = emailEditText.getText().toString();
+                String password = passEditText.getText().toString();
+                String comments = commentsEditText.getText().toString();
+                accountToEdit.setUserName(username);
+                accountToEdit.setEmail(email);
+                accountToEdit.setPassword(password);
+                accountToEdit.setComments(comments);
+                AddAccountFragment.this.dismiss();
+            }
+        });
+
+
+
     }
 
     @Override

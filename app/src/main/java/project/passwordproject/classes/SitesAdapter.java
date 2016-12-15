@@ -1,12 +1,18 @@
 package project.passwordproject.classes;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.media.Image;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -29,6 +35,17 @@ public class SitesAdapter extends ArrayAdapter<Site> {
         mySites = objects;
     }
 
+    public void refreshSites(List<Site> sites) {
+        this.mySites.clear();
+        this.mySites.addAll(sites);
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<Site> siteList) {
+        this.mySites = siteList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -42,11 +59,14 @@ public class SitesAdapter extends ArrayAdapter<Site> {
             holder = new SiteHolder();
             holder.siteName = (TextView) row.findViewById(R.id.rowSiteNameTextView);
             holder.siteInfo = (TextView) row.findViewById(R.id.rowInfoTextView);
+            holder.deleteImageButton = (ImageView) row.findViewById(R.id.deleteSiteButton);
 
             row.setTag(holder);
+
         } else {
             holder = (SiteHolder) row.getTag();
         }
+
 
         Site currentSite = mySites.get(position);
 
@@ -54,11 +74,42 @@ public class SitesAdapter extends ArrayAdapter<Site> {
         String infoString = "Total Accounts: " + currentSite.getAccountList().size();
         holder.siteInfo.setText(infoString);
 
+        Integer pos = position;
+        holder.deleteImageButton.setTag(pos);
+        holder.deleteImageButton.setOnClickListener(onClickListener);
+
+
         return row;
     }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final View clickedView = v;
+            AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
+            builder.setMessage("You will remove this site and all the passwords assigned to it... Are you sure?")
+                    .setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            int position = (Integer) clickedView.getTag();
+                            mySites.remove(position);
+                            notifyDataSetChanged();                        }
+                    })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        }
+    };
 
     private class SiteHolder {
         public TextView siteName;
         public TextView siteInfo;
+        public ImageView deleteImageButton;
     }
 }
