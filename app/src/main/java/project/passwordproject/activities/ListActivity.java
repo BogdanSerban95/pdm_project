@@ -60,6 +60,7 @@ public class ListActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             SiteList sites = (SiteList) savedInstanceState.getSerializable("CurrentSites");
             mySites = sites.getSites();
+            firstStart = false;
         } else {
             mySites = new ArrayList<>();
         }
@@ -85,7 +86,6 @@ public class ListActivity extends AppCompatActivity {
 
         if (firstStart) {
             syncData();
-            firstStart = false;
         }
 
         fab = (FloatingActionButton) findViewById(R.id.fab);

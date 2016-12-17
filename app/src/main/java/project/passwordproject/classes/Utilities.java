@@ -1,6 +1,7 @@
 package project.passwordproject.classes;
 
 import android.content.Context;
+import android.util.Patterns;
 import android.util.Xml;
 
 import org.w3c.dom.Document;
@@ -19,6 +20,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -123,4 +126,15 @@ public class Utilities {
         return mySites;
     }
 
+    public static boolean isValidUrl(String url) {
+        Pattern p = Patterns.WEB_URL;
+        Matcher m = p.matcher(url.toLowerCase());
+        return m.matches();
+    }
+
+    public static boolean isValidEmail(String email) {
+        Pattern p = Patterns.EMAIL_ADDRESS;
+        Matcher m = p.matcher(email.toLowerCase());
+        return m.matches();
+    }
 }

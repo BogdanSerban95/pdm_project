@@ -22,6 +22,7 @@ import android.widget.Toast;
 import project.passwordproject.R;
 import project.passwordproject.classes.AccountDetails;
 import project.passwordproject.classes.GeneratePassTask;
+import project.passwordproject.classes.Utilities;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,6 +84,25 @@ public class AddAccountFragment extends DialogFragment {
 
             }
         });
+
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!Utilities.isValidEmail(s.toString())) {
+                    emailEditText.setError("You have entered an invalid email...");
+                }
+            }
+        });
         generatePassCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,9 +160,11 @@ public class AddAccountFragment extends DialogFragment {
             }
         });
         Bundle extraContent = getArguments();
-        AccountDetails accountToEdit = (AccountDetails) extraContent.getSerializable(SiteDetailsActivity.EDIT_ACCOUNT);
-        if (accountToEdit != null) {
-            editAccountBehaviour(accountToEdit, view);
+        if (extraContent != null) {
+            AccountDetails accountToEdit = (AccountDetails) extraContent.getSerializable(SiteDetailsActivity.EDIT_ACCOUNT);
+            if (accountToEdit != null) {
+                editAccountBehaviour(accountToEdit, view);
+            }
         } else {
             addAccountBehaviour(view);
         }
@@ -153,7 +175,6 @@ public class AddAccountFragment extends DialogFragment {
 
     private void addAccountBehaviour(View templateView) {
         final View view = templateView;
-
 
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +220,6 @@ public class AddAccountFragment extends DialogFragment {
                 AddAccountFragment.this.dismiss();
             }
         });
-
 
 
     }

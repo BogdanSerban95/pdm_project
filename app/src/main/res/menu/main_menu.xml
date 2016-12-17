@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MenuExampleActivity">
+    <item
+        android:id="@+id/menu_settings"
+        android:orderInCategory="3"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_log_out"
+        android:orderInCategory="4"
+        android:title="@string/log_out"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_upload_cloud"
+        android:orderInCategory="2"
+        android:title="@string/upload_to_cloud"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_sync_accounts"
+        android:orderInCategory="1"
+        android:title="@string/sync_accounts"
+        app:showAsAction="never"/>
+</menu>

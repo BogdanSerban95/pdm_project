@@ -26,9 +26,6 @@
         </activity>
         <activity android:name=".activities.SignActivity" />
         <activity android:name=".activities.RPActivity" />
-        <activity android:name=".activities.MenuActivity">
-
-        </activity>
         <activity android:name=".activities.ListActivity" />
         <activity android:name=".activities.AddListItem" />
         <activity android:name=".activities.SiteDetailsActivity" />

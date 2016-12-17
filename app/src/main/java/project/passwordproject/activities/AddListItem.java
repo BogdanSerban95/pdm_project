@@ -4,6 +4,8 @@ import android.app.*;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import project.passwordproject.R;
 import project.passwordproject.classes.AccountDetails;
 import project.passwordproject.classes.Site;
+import project.passwordproject.classes.Utilities;
 
 public class AddListItem extends AppCompatActivity {
 
@@ -31,6 +34,25 @@ public class AddListItem extends AppCompatActivity {
         addSiteButton = (Button) findViewById(R.id.addSiteButton);
         siteNameEditText = (EditText) findViewById(R.id.siteNameEditText);
         siteAddressEditText = (EditText) findViewById(R.id.urlEditText);
+
+        siteAddressEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!Utilities.isValidUrl(s.toString())){
+                    siteAddressEditText.setError("You must enter a valid URL...");
+                }
+            }
+        });
 
         addSiteButton.setOnClickListener(new View.OnClickListener() {
             @Override
