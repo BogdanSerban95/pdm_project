@@ -16,19 +16,33 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:noHistory="true"
-            android:launchMode="singleTop">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SignActivity" />
-        <activity android:name=".activities.RPActivity" />
-        <activity android:name=".activities.ListActivity" />
-        <activity android:name=".activities.AddListItem" />
-        <activity android:name=".activities.SiteDetailsActivity" />
+        <activity
+            android:name=".activities.SignActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RPActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AddListItem"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SiteDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PieChartActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -27,12 +27,14 @@ public class SitesAdapter extends ArrayAdapter<Site> {
     private Context myContext;
     private int myResourceId;
     private List<Site> mySites;
+    private  DatabaseAdapter databaseAdapter;
 
-    public SitesAdapter(Context context, int resource, List<Site> objects) {
+    public SitesAdapter(Context context, int resource, List<Site> objects, DatabaseAdapter databaseAdapter) {
         super(context, resource, objects);
         myContext = context;
         myResourceId = resource;
         mySites = objects;
+        this.databaseAdapter = databaseAdapter;
     }
 
     public void refreshSites(List<Site> sites) {
@@ -44,6 +46,10 @@ public class SitesAdapter extends ArrayAdapter<Site> {
     public void setData(List<Site> siteList) {
         this.mySites = siteList;
         notifyDataSetChanged();
+    }
+
+    public List<Site> getData() {
+        return mySites;
     }
 
     @NonNull
@@ -92,15 +98,17 @@ public class SitesAdapter extends ArrayAdapter<Site> {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             int position = (Integer) clickedView.getTag();
+                            databaseAdapter.deleteSite(mySites.get(position));
                             mySites.remove(position);
-                            notifyDataSetChanged();                        }
+                            notifyDataSetChanged();
+                        }
                     })
-            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
             AlertDialog alert = builder.create();
             alert.show();
 

@@ -53,11 +53,6 @@ public class LoginActivity extends AppCompatActivity {
         password_ET = (EditText) findViewById(R.id.passtv);
         rememberMe = (CheckBox) findViewById(R.id.checkBox);
 
-//        myFirebaseRef = FirebaseDatabase.getInstance().getReference();
-
-
-        //rememberMe_Load();
-
         stateDetector = preferences.getBoolean("stateDetector", false);
 
         if (stateDetector) {
@@ -66,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 new ConnectionWaiter(email).execute();
             }
         }
-        //else Toast.makeText(getApplicationContext(),"StateDetector is false",Toast.LENGTH_SHORT).show();
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -169,12 +164,14 @@ public class LoginActivity extends AppCompatActivity {
 
         public ConnectionWaiter(String email) {
             this.email = email;
+            dialog = new ProgressDialog(LoginActivity.this);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = ProgressDialog.show(LoginActivity.this, "", "Logging in...");
+            dialog.setMessage("Logging in...");
+            dialog.show();
 
         }
 
@@ -191,6 +188,7 @@ public class LoginActivity extends AppCompatActivity {
                             // signed in user can be handled in the listener.
                             if (task.isSuccessful()) {
                                 dialog.dismiss();
+                                dialog.cancel();
                                 Intent i = new Intent(getApplicationContext(), ListActivity.class);
                                 String[] splitEmail = email.split("@");
                                 String username = splitEmail[0].trim() + "_" + splitEmail[1].replace(".", "_");
@@ -200,6 +198,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             } else {
                                 dialog.dismiss();
+                                dialog.cancel();
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
 
@@ -214,7 +213,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            dialog.dismiss();
         }
     }
 }

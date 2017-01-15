@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 import project.passwordproject.R;
 import project.passwordproject.classes.AccountAdapter;
 import project.passwordproject.classes.AccountDetails;
+import project.passwordproject.classes.DatabaseAdapter;
 import project.passwordproject.classes.Site;
 
 public class SiteDetailsActivity extends AppCompatActivity implements AddAccountFragment.AddAccountListener {
@@ -30,11 +31,17 @@ public class SiteDetailsActivity extends AppCompatActivity implements AddAccount
     private FloatingActionButton addAccountActionButton;
     private Site currentSite;
     private AccountAdapter accountAdapter;
+    private DatabaseAdapter databaseAdapter;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_details);
+
+        userName = getIntent().getStringExtra("UserName");
+        databaseAdapter = new DatabaseAdapter(getApplicationContext(), userName);
+        databaseAdapter.openConnection();
 
         titleTextView = (TextView) findViewById(R.id.siteNameTextView);
         siteNameTextView = (TextView) findViewById(R.id.detailsSiteNameTextView);
@@ -57,7 +64,7 @@ public class SiteDetailsActivity extends AppCompatActivity implements AddAccount
             }
         });
 
-        accountAdapter = new AccountAdapter(SiteDetailsActivity.this, R.layout.account_row, currentSite.getAccountList());
+        accountAdapter = new AccountAdapter(SiteDetailsActivity.this, R.layout.account_row, currentSite.getAccountList(), databaseAdapter, currentSite.getName());
         accountsListView.setAdapter(accountAdapter);
 
         accountsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,7 +73,7 @@ public class SiteDetailsActivity extends AppCompatActivity implements AddAccount
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 AddAccountFragment accountFragment = new AddAccountFragment();
                 Bundle extraData = new Bundle();
-                extraData.putSerializable(EDIT_ACCOUNT,accountAdapter.getItem(position));
+                extraData.putSerializable(EDIT_ACCOUNT, accountAdapter.getItem(position));
                 accountFragment.setArguments(extraData);
                 accountFragment.show(fragmentTransaction, "dialog");
             }
@@ -75,7 +82,30 @@ public class SiteDetailsActivity extends AppCompatActivity implements AddAccount
 
     @Override
     public void OnAccountAdded(AccountDetails account) {
+        for (AccountDetails acc : currentSite.getAccountList()) {
+            if (acc.getUserName().equals(account.getUserName())) {
+                Toast.makeText(getApplicationContext(), "You already have an account with this username!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         accountAdapter.add(account);
+        databaseAdapter.insertAccount(account, currentSite.getName());
+    }
 
+    @Override
+    public void OnAccountEdited(AccountDetails newAccountDetails, AccountDetails oldAccountDetails) {
+        try {
+            databaseAdapter.deleteAccount(oldAccountDetails, currentSite.getName());
+            databaseAdapter.insertAccount(newAccountDetails, currentSite.getName());
+            accountAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseAdapter.closeConnection();
     }
 }

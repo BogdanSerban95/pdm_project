@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import project.passwordproject.R;
 
@@ -21,15 +22,19 @@ import project.passwordproject.R;
  */
 
 public class AccountAdapter extends ArrayAdapter<AccountDetails> {
+    private final DatabaseAdapter databaseAdapter;
+    private final String siteName;
     private Context myContext;
     private int myResourceId;
     private List<AccountDetails> myAccounts;
 
-    public AccountAdapter(Context context, int resource, List<AccountDetails> objects) {
+    public AccountAdapter(Context context, int resource, List<AccountDetails> objects,DatabaseAdapter databaseAdapter, String siteName) {
         super(context, resource, objects);
         myContext = context;
         myResourceId = resource;
         myAccounts = objects;
+        this.databaseAdapter = databaseAdapter;
+        this.siteName = siteName;
     }
 
     @Nullable
@@ -80,6 +85,11 @@ public class AccountAdapter extends ArrayAdapter<AccountDetails> {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             int position = (Integer) clickedView.getTag();
+                            try{
+                                databaseAdapter.deleteAccount(myAccounts.get(position),siteName);
+                            }catch (Exception e){
+
+                            }
                             myAccounts.remove(position);
                             notifyDataSetChanged();
                         }

@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MenuExampleActivity">
     <item
-        android:id="@+id/menu_settings"
-        android:orderInCategory="3"
-        android:title="@string/settings"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/menu_log_out"
         android:orderInCategory="4"
         android:title="@string/log_out"
@@ -16,10 +11,25 @@
         android:id="@+id/menu_upload_cloud"
         android:orderInCategory="2"
         android:title="@string/upload_to_cloud"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_send_to_db"
+        android:orderInCategory="2"
+        android:title="@string/send_to_database"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_get_from_db"
+        android:orderInCategory="2"
+        android:title="@string/get_from_db"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_sync_accounts"
         android:orderInCategory="1"
         android:title="@string/sync_accounts"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_pie_chart"
+        android:orderInCategory="3"
+        android:title="@string/generate_graph"
+        app:showAsAction="never" />
 </menu>

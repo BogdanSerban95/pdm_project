@@ -59,4 +59,8 @@
     <string name="sync_accounts">Syncronize Passwords</string>
     <string name="save">Save</string>
     <string name="edit_account_label">Edit Account</string>
+    <string name="send_to_database">Send to Database</string>
+    <string name="get_from_db">Import from Database</string>
+    <string name="generate_graph">Generate Graph</string>
+    <string name="graph_title">Accounts Graph</string>
 </resources>

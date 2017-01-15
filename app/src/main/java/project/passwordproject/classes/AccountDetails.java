@@ -51,6 +51,14 @@ public class AccountDetails implements Serializable {
 
         this.comments = comments;
     }
+    public AccountDetails(AccountDetails account) {
+        this.userName = account.getUserName();
+        this.email = account.getEmail();
+        this.password = account.getPassword();
+        this.comments = account.getComments();
+    }
 
+    public AccountDetails() {
+    }
 
 }

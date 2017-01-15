@@ -2,6 +2,7 @@ package project.passwordproject.activities;
 
 import android.app.*;
 import android.content.Intent;
+import android.provider.Contacts;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import project.passwordproject.R;
 import project.passwordproject.classes.AccountDetails;
+import project.passwordproject.classes.DatabaseAdapter;
 import project.passwordproject.classes.Site;
 import project.passwordproject.classes.Utilities;
 
@@ -48,7 +50,7 @@ public class AddListItem extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!Utilities.isValidUrl(s.toString())){
+                if (!Utilities.isValidUrl(s.toString())) {
                     siteAddressEditText.setError("You must enter a valid URL...");
                 }
             }
@@ -61,11 +63,14 @@ public class AddListItem extends AppCompatActivity {
                 String address = siteAddressEditText.getText().toString();
 
                 if (name.isEmpty()) {
-                    siteNameEditText.setError("Name is required");
+                    siteNameEditText.setError("Name is required!");
                     return;
                 }
-                if (address.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "You can add the site address later...", Toast.LENGTH_SHORT).show();
+                if (!address.isEmpty()) {
+                    if (!Utilities.isValidUrl(address)) {
+                        siteAddressEditText.setError("Invalid address!");
+                        return;
+                    }
                 }
                 Site site = new Site(name, address, new ArrayList<AccountDetails>());
                 Intent intent = new Intent();

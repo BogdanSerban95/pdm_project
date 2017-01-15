@@ -186,6 +186,20 @@ public class AddAccountFragment extends DialogFragment {
                 String email = emailEditText.getText().toString();
                 String password = passEditText.getText().toString();
                 String comments = commentsEditText.getText().toString();
+                if(username.isEmpty()) {
+                    userNameEditText.setError("Username required...");
+                    return;
+                }
+                if(password.isEmpty()){
+                    passEditText.setError("Please insert a password...");
+                    return;
+                }
+                if(!email.isEmpty()){
+                    if(!Utilities.isValidEmail(email)){
+                        emailEditText.setError("Invalid email!");
+                        return;
+                    }
+                }
                 AccountDetails details = new AccountDetails(username, email, password, comments);
                 listener.OnAccountAdded(details);
                 dismiss();
@@ -213,10 +227,26 @@ public class AddAccountFragment extends DialogFragment {
                 String email = emailEditText.getText().toString();
                 String password = passEditText.getText().toString();
                 String comments = commentsEditText.getText().toString();
+                AccountDetails odlAccountDetails = new AccountDetails(accountToEdit);
+                if(username.isEmpty()) {
+                    userNameEditText.setError("Username required...");
+                    return;
+                }
+                if(password.isEmpty()){
+                    passEditText.setError("Please insert a password...");
+                    return;
+                }
+                if(!email.isEmpty()){
+                    if(!Utilities.isValidEmail(email)){
+                        emailEditText.setError("Invalid email!");
+                        return;
+                    }
+                }
                 accountToEdit.setUserName(username);
                 accountToEdit.setEmail(email);
                 accountToEdit.setPassword(password);
                 accountToEdit.setComments(comments);
+                listener.OnAccountEdited(accountToEdit,odlAccountDetails);
                 AddAccountFragment.this.dismiss();
             }
         });
@@ -243,5 +273,6 @@ public class AddAccountFragment extends DialogFragment {
 
     public interface AddAccountListener {
         public void OnAccountAdded(AccountDetails account);
+        public void OnAccountEdited(AccountDetails newAccountDetails, AccountDetails oldAccountDetails);
     }
 }
